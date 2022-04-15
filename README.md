@@ -8,8 +8,8 @@
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/readxl)](https://cran.r-project.org/package=readxl)
 [![R-CMD-check](https://github.com/tidyverse/readxl/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidyverse/readxl/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/tidyverse/readxl/branch/main/graph/badge.svg)](https://codecov.io/gh/tidyverse/readxl?branch=main)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+coverage](https://codecov.io/gh/tidyverse/readxl/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidyverse/readxl?branch=main)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
 ## Overview
@@ -21,10 +21,10 @@ install and use on all operating systems. It is designed to work with
 *tabular* data.
 
 readxl supports both the legacy `.xls` format and the modern xml-based
-`.xlsx` format. The [libxls](https://github.com/evanmiller/libxls) C
-library is used to support `.xls`, which abstracts away many of the
-complexities of the underlying binary format. To parse `.xlsx`, we use
-the [RapidXML](http://rapidxml.sourceforge.net) C++ library.
+`.xlsx` format. The [libxls](https://github.com/libxls/libxls) C library
+is used to support `.xls`, which abstracts away many of the complexities
+of the underlying binary format. To parse `.xlsx`, we use the
+[RapidXML](http://rapidxml.sourceforge.net) C++ library.
 
 ## Installation
 
@@ -75,7 +75,7 @@ readxl_example()
 #>  [5] "deaths.xls"    "deaths.xlsx"   "geometry.xls"  "geometry.xlsx"
 #>  [9] "type-me.xls"   "type-me.xlsx"
 readxl_example("clippy.xls")
-#> [1] "/private/tmp/RtmpQ7Z0zv/temp_libpath3e147aec1464/readxl/extdata/clippy.xls"
+#> [1] "/private/tmp/RtmpxLRgSx/temp_libpath73d16b200d00/readxl/extdata/clippy.xls"
 ```
 
 `read_excel()` reads both xls and xlsx files and detects the format from
@@ -190,9 +190,9 @@ read_excel(xlsx_example, na = "setosa")
 
 If you are new to the tidyverse conventions for data import, you may
 want to consult the [data import
-chapter](http://r4ds.had.co.nz/data-import.html) in R for Data Science.
+chapter](https://r4ds.had.co.nz/data-import.html) in R for Data Science.
 readxl will become increasingly consistent with other packages, such as
-[readr](http://readr.tidyverse.org).
+[readr](https://readr.tidyverse.org/).
 
 ## Articles
 
@@ -222,8 +222,8 @@ presented by the world’s spreadsheets:
 
 -   Re-encodes non-ASCII characters to UTF-8.
 
--   Loads datetimes into POSIXct columns. Both Windows (1900) and Mac
-    (1904) date specifications are processed correctly.
+-   Loads datetimes into POSIXct columns. Both Windows (1900) and
+    Mac (1904) date specifications are processed correctly.
 
 -   Discovers the minimal data rectangle and returns that, by default.
     User can exert more control with `range`, `skip`, and `n_max`.
@@ -233,7 +233,7 @@ presented by the world’s spreadsheets:
     control name repair via `.name_repair`.
 
 -   Returns a
-    [tibble](http://tibble.tidyverse.org/reference/tibble.html), i.e. a
+    [tibble](https://tibble.tidyverse.org/reference/tibble.html), i.e. a
     data frame with an additional `tbl_df` class. Among other things,
     this provide nicer printing.
 
@@ -265,7 +265,3 @@ about twice as fast and to write smaller files.
 importing awkward and non-tabular data from Excel. It also “exposes cell
 content, position and formatting in a tidy structure for further
 manipulation”.
-
-Please note that the readxl project is released with a [Contributor Code
-of Conduct](.github/CODE_OF_CONDUCT.md). By contributing to this
-project, you agree to abide by its terms.

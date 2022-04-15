@@ -1,15 +1,13 @@
-#ifndef READXL_XLSWORKBOOK_
-#define READXL_XLSWORKBOOK_
+#pragma once
 
 #include "ColSpec.h"
 
 #include "libxls/xls.h"
 #include "libxls/xlsstruct.h"
 
+#include "cpp11/R.hpp"
 #include "cpp11/r_string.hpp"
 #include "cpp11/strings.hpp"
-
-#include <sstream>
 
 class XlsWorkBook {
 
@@ -17,6 +15,7 @@ class XlsWorkBook {
   std::string path_;
   bool is1904_;
   std::set<int> dateFormats_;
+  std::vector<std::string> stringTable_;
 
   // kept as data + accessor in XlsWorkBook vs. member function in XlsxWorkBook
   int n_sheets_;
@@ -24,7 +23,9 @@ class XlsWorkBook {
 
 public:
 
-  XlsWorkBook(const std::string& path) {
+  XlsWorkBook(const std::string& path):
+  stringTable_{"placeholder"}
+  {
     // the user's path has probably been translated to UTF-8 by
     // normalizePath() on the R side
     // even if that were not true, cpp11 does this automatically when
@@ -35,10 +36,12 @@ public:
     xls::xls_error_t error = xls::LIBXLS_OK;
     xls::xlsWorkBook* pWB_ = xls::xls_open_file(path_.c_str(), "UTF-8", &error);
     if (!pWB_) {
-      auto err = xls::xls_getError(error);
-      std::stringstream ss;
-      ss << "\n filepath: " << path_ << "\n libxls error: " << err;
-      throw std::runtime_error(ss.str());
+      Rf_errorcall(
+        R_NilValue,
+        "\n  filepath: %s\n  libxls error: %s",
+        path_.c_str(),
+        xls::xls_getError(error)
+      );
     }
 
     n_sheets_ = pWB_->sheets.count;
@@ -73,6 +76,10 @@ public:
     return dateFormats_;
   }
 
+  const std::vector<std::string>& stringTable() const {
+    return stringTable_;
+  }
+
 private:
 
   void cacheDateFormats(xls::xlsWorkBook* pWB) {
@@ -84,6 +91,9 @@ private:
     if (n_formats > 0) {
       for (int i = 0; i < n_formats; ++i) {
         const xls::st_format::st_format_data format = pWB->formats.format[i];
+        if (format.value == nullptr) {
+          continue;
+        }
         // format.value = format string
         // in xlsx, this is formatCode
         std::string code((char*) format.value);
@@ -112,5 +122,3 @@ private:
   }
 
 };
-
-#endif

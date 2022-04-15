@@ -1,5 +1,4 @@
-#ifndef READXL_XLSXWORKBOOK_
-#define READXL_XLSXWORKBOOK_
+#pragma once
 
 #include "ColSpec.h"
 #include "utils.h"
@@ -7,6 +6,9 @@
 #include "zip.h"
 
 #include "rapidxml/rapidxml.h"
+
+#include "cpp11/protect.hpp"
+#include "cpp11/strings.hpp"
 
 #include <map>
 
@@ -351,5 +353,3 @@ private:
   }
 
 };
-
-#endif
